@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wally | Jiwan Park</title>
+  <meta name="description" content="A financial literacy app for college students who find money management stressful. My first UX project.">
+  <link rel="stylesheet" href="../styles.css?v=17">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap"><div class="frame">
+      <a class="name" href="../index.html">Jiwan Park</a>
+      <nav>
+        <a href="../index.html" aria-current="page">Work</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div></div>
+  </header>
+
+  <main class="wrap"><div class="frame">
+    <a class="back row" href="../index.html#p1">← Back</a>
+    <section class="hero cols row lead">
+      <div class="side cell label">UX · Mobile app <br>2026</div>
+      <div class="main cell">
+        <h1 class="display">Wally</h1>
+        <p class="lede">A financial literacy app for college students, built around a campus finance club called Student Wallet. It was my first UX project.</p>
+      </div>
+    </section>
+
+    <img class="hero-image row" src="../assets/wally/hero.jpg" alt="Wally logo beside two phones showing the app dashboard and event calendar">
+
+    <dl class="facts cols row">
+      <div><dt>Role</dt><dd>UI lead</dd></div>
+      <div><dt>Class</dt><dd>UXDG 101, Prof. BC Hwang</dd></div>
+      <div><dt>Team</dt><dd>Aarya Mahapatra, Cherry Phan, Anna Vorontsova, Ashley Cho</dd></div>
+      <div><dt>Recognition</dt><dd>Winner, European Product Design Award 2026. Finalist, The Rookie Awards 2026.</dd></div>
+    </dl>
+
+    <section class="cols row lead">
+      <div class="side cell label">01 <br>Problem</div>
+      <div class="main cell prose">
+        <h2>Students handling money for the first time</h2>
+        <p>The brief was to design an app for a college club. We each pitched a club, voted, and landed on a financial literacy club, mostly because money was something all five of us were quietly stressed about.</p>
+        <p>Most finance apps are built for people with salaries and credit histories. A first-year student with a meal plan and a part-time paycheck opens one and sees words they have never had to use. We wanted to know what would make budgeting feel doable for someone who has never done it.</p>
+      </div>
+    </section>
+
+    <section class="cols row lead">
+      <div class="side cell label">02 <br>Research</div>
+      <div class="main cell prose">
+        <h2>What students told us</h2>
+        <p>We collected 66 survey responses, ran 18 interviews, and shadowed three students through a full day of spending. One teammate also sat in on a SCAD financial workshop to see what help already existed.</p>
+        <p>Half of the students we surveyed had never taken a finance class or workshop. 84% said they understood saving, but only 34% said the same about loans and debt, and 17% about investing. All three students we shadowed bought things on impulse and had no system for keeping track.</p>
+        <blockquote class="pull">College students care deeply about managing their money, but they lack confidence because existing financial systems are overwhelming and emotionally stressful.</blockquote>
+        <p>We sorted 355 data points into 18 themes, then 13 insights, and ended with four areas to design for: financial goals, budgeting and tracking, community learning, and motivation.</p>
+        <div class="figures">
+          <figure><img src="../assets/wally/process-p46.jpg" alt="Affinity map of sticky notes grouped into themes" loading="lazy"><figcaption>355 data points, sorted by hand into themes.</figcaption></figure>
+          <figure><img src="../assets/wally/process-p94.jpg" alt="User journey map from discovering the app to recommending it" loading="lazy"><figcaption>The journey map, from first paycheck to telling a friend.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="cols row lead">
+      <div class="side cell label">03 <br>Process</div>
+      <div class="main cell prose">
+        <h2>From sticky notes to screens</h2>
+        <p>Each of the four areas became a "How might we" question:</p>
+        <ul>
+          <li><strong>Financial goals.</strong> How might we make budgeting personal and achievable?</li>
+          <li><strong>Budgeting and tracking.</strong> How might we build budgeting habits through simple tools?</li>
+          <li><strong>Motivation.</strong> How might we use incentives to motivate users?</li>
+          <li><strong>Community learning.</strong> How might we build a community-driven finance club?</li>
+        </ul>
+        <p>We sketched answers in Crazy 8s rounds. Card sorting gave us the four tabs the app still has: dashboard, tracking, learning, and community.</p>
+        <h3>Color and type</h3>
+        <p>As UI lead I was responsible for how Wally looked and felt: <mark class="todo">the color, type, components, and the high-fidelity screens</mark>.</p>
+        <p>From the first conversation we knew we wanted green and purple. Green because most of us think of money as green. Purple because it feels more approachable than the corporate blue most finance apps use. We built the mood board around those two.</p>
+        <p>The base colors are an almost-indigo purple and a yellowish green that stands for growth and money. Pink makes it warm and friendly, and a dark neutral keeps the text readable.</p>
+        <p>Rubik is the main typeface. Its corners are soft and rounded, which makes it a little playful, so we paired it with Poppins to balance it out.</p>
+        <h3>Wally the penguin</h3>
+        <p>We also made a mascot. Wally is a penguin who shows up throughout the app, and he has a range of emotions so we could put him in different situations.</p>
+        <p>The tone we wrote down was supportive, encouraging, playful, and beginner-friendly.</p>
+        <h3>Components</h3>
+        <p>Consistency was key. The corners are rounded the same way everywhere, and the font sizes and styles stay the same from screen to screen. The library covers the navigation bar, pop-ups, progress bars, an icon set for navigation and categories, and a mascot that moves.</p>
+        <div class="figures">
+          <figure class="full"><img src="../assets/wally/process-p96.jpg" alt="Pen sketches of app screens spread across a desk" loading="lazy"><figcaption>Crazy 8s sketches.</figcaption></figure>
+          <figure><img src="../assets/wally/process-p113.jpg" alt="Four hand-drawn low-fidelity wireframes" loading="lazy"><figcaption>Low fidelity.</figcaption></figure>
+          <figure><img src="../assets/wally/process-p114.jpg" alt="Grey mid-fidelity wireframes of the rewards and tracking screens" loading="lazy"><figcaption>Mid fidelity.</figcaption></figure>
+          <figure class="full"><img src="../assets/wally/process-p105.jpg" alt="Brand sheet with the Wally logo, color palette, and typefaces" loading="lazy"><figcaption>The visual system.</figcaption></figure>
+          <figure><img src="../assets/wally/process-p106.jpg" alt="Wally the penguin mascot wearing glasses and a purple scarf" loading="lazy"><figcaption>Wally.</figcaption></figure>
+          <figure><img src="../assets/wally/process-p107.jpg" alt="Six versions of Wally showing different emotions" loading="lazy"><figcaption>Content, miserable, disappointed, confused, frozen, curious.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="cols row lead">
+      <div class="side cell label">04 <br>Solution</div>
+      <div class="main cell prose">
+        <h2>Four tabs, one penguin, Wally</h2>
+        <ul>
+          <li><strong>Dashboard.</strong> Your budget for the month at a glance, a daily tip, and any rewards about to expire.</li>
+          <li><strong>Tracking.</strong> Split your money into categories, log what you spend, and save toward something specific, like a laptop.</li>
+          <li><strong>Learning.</strong> Beginner readings, past workshop recordings, and club resources you can come back to.</li>
+          <li><strong>Community.</strong> The club calendar, event sign-up, and a form to join.</li>
+        </ul>
+        <div class="figures">
+          <figure class="full"><img src="../assets/wally/screens.jpg" alt="A grid of Wally app screens on a purple background" loading="lazy"></figure>
+          <figure><img src="../assets/wally/mockup-tracking.jpg" alt="Three phones showing the budget, savings goal, and transaction screens" loading="lazy"><figcaption>Budgets, savings goals, and logged transactions.</figcaption></figure>
+          <figure><img src="../assets/wally/mockup-rewards.jpg" alt="Two phones showing rewards and the dashboard" loading="lazy"><figcaption>Rewards and the dashboard.</figcaption></figure>
+          <figure class="full"><img src="../assets/wally/in-hand-1.jpg" alt="A person holding a phone with the Wally dashboard open" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="cols row lead">
+      <div class="side cell label">05 <br>Outcome</div>
+      <div class="main cell prose">
+        <h2>What changed, and what I took from it</h2>
+        <p>We tested with 26 people across two rounds and had an expert review the prototype.</p>
+        <div class="outcomes">
+          <div><strong>79 → 91</strong><span>System Usability Scale, first round to second</span></div>
+          <div><strong>33 → 60</strong><span>Net Promoter Score, first round to second</span></div>
+          <div><strong>92/100</strong><span>Expert heuristic review</span></div>
+        </div>
+        <p>Wally went on to win the European Product Design Award 2026 in Product User Interface Design (student) and was a finalist in The Rookie Awards 2026.</p>
+        <h3>What I learned</h3>
+        <p><mark class="todo">Draft, please edit:</mark> Wally was my door into UX. I came from graphic design, so I walked in thinking the job was making screens look good. That was the part I already knew how to do.</p>
+        <p>What surprised me was how much of the work happens before anyone opens Figma: the interviews, the sticky notes, the long conversations about what the problem really is. By the time I started on the UI, a lot of my decisions had already been made by what students told us. Now when I add a color or a button, I want to be able to point to the person it is for.</p>
+        <p>I also found out I like working this way more than working alone. Five of us with five different jobs got further than any one of us would have.</p>
+        <div class="figures">
+          <figure><img src="../assets/wally/poster-photo.jpg" alt="Jiwan standing next to the printed Wally poster" loading="lazy"><figcaption>With the Wally poster at SCAD.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <a class="next cols lead" href="seek.html">
+      <div class="side cell"><span class="label">Next project</span><img class="next-thumb" src="../assets/seek/hero.jpg" alt="Seek plugin open on a laptop" loading="lazy"></div>
+      <div class="main cell"><div class="display">Seek →</div><p class="next-desc">A workplace platform that helps coworkers find the small things already happening around the office.</p></div>
+    </a>
+  </div></main>
+
+  <footer class="site-footer">
+    <div class="wrap"><div class="frame">
+      <span>© 2026 Jiwan Park</span>
+      <nav>
+        <a href="mailto:jiwanpark0212@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/jiwan-park">LinkedIn</a>
+      </nav>
+    </div></div>
+  </footer>
+  <script>
+    // Back returns to wherever the visitor came from on this site; otherwise to the project list
+    document.querySelector(".back").addEventListener("click", (e) => {
+      if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Industrial Design | Jiwan Park</title>
+  <meta name="description" content="Industrial design work by Jiwan Park: products modeled in Rhino and rendered in KeyShot.">
+  <link rel="stylesheet" href="styles.css?v=17">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap"><div class="frame">
+      <a class="name" href="index.html">Jiwan Park</a>
+      <nav>
+        <a href="index.html" aria-current="page">Work</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div></div>
+  </header>
+
+    <main class="wrap"><div class="frame">
+    <a class="back row" href="index.html#p5">← Back</a>
+    <section class="hero cols row lead">
+      <div class="side cell label">Industrial design <br>2026</div>
+      <div class="main cell">
+        <h1 class="display">Industrial Design</h1>
+        <p class="lede">Products I modeled in Rhino and rendered in KeyShot for my industrial design minor.</p>
+        <p class="lede">Most of my renders use a vignette to direct attention to the product and hold it there. I am just as deliberate about composition: I avoid centering the product, and I vary the framing between close-up and wide-angle shots.</p>
+      </div>
+    </section>
+
+    <section class="cols row lead" id="fan">
+      <div class="side cell label">01 <br>Fan</div>
+      <div class="main cell prose">
+        <h2>Detachable Bladeless Fan</h2>
+        <p>A bladeless fan that lifts off its charging base, with a battery display on the front.</p>
+        <p>I chose blue to suggest coolness and carried it into the background, toned down so it supports the product without overpowering it. Keeping the scene in the same color family makes each image read as cohesive.</p>
+        <div class="figures">
+          <figure class="full"><img src="assets/id/fan-1.jpg" alt="Two black and blue bladeless fans, one on its round charging base" loading="lazy"></figure>
+          <figure><img src="assets/id/fan-2.jpg" alt="The fan on its base beside a second fan lifted off" loading="lazy"></figure>
+          <figure><img src="assets/id/fan-3.jpg" alt="The fan hovering above its charging base, showing the connector" loading="lazy"></figure>
+          <figure><img src="assets/id/fan-4.jpg" alt="Close view of the battery display reading 100 percent" loading="lazy"></figure>
+          <figure><img src="assets/id/fan-5.jpg" alt="Front view of the fan on its base" loading="lazy"></figure>
+          <figure class="full"><img src="assets/id/fan-6.jpg" alt="The fan on a wooden table in warm light" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+    <section class="cols row lead" id="faucet">
+      <div class="side cell label">02 <br>Faucet</div>
+      <div class="main cell prose">
+        <h2>Lavatory Faucet</h2>
+        <p>A single-handle bathroom faucet in chrome.</p>
+        <p>Here I focused on contrast. Strong darks and bright highlights are what show how shiny the chrome is, and they make the renders look like photographs taken in a real bathroom.</p>
+        <div class="figures">
+          <figure class="full"><img src="assets/id/faucet-1.jpg" alt="Chrome faucet running water into a white basin" loading="lazy"></figure>
+          <figure><img src="assets/id/faucet-2.jpg" alt="Side view of the faucet with water running" loading="lazy"></figure>
+          <figure><img src="assets/id/faucet-3.jpg" alt="The faucet seen from behind the basin" loading="lazy"></figure>
+          <figure><img src="assets/id/faucet-4.jpg" alt="The faucet seen from above" loading="lazy"></figure>
+          <figure><img src="assets/id/faucet-5.jpg" alt="The faucet from a low front angle" loading="lazy"></figure>
+          <figure><img src="assets/id/faucet-6.jpg" alt="Side orthographic render of the faucet" loading="lazy"><figcaption>Side view.</figcaption></figure>
+          <figure><img src="assets/id/faucet-7.jpg" alt="Front orthographic render of the faucet" loading="lazy"><figcaption>Front view.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+    <section class="cols row lead" id="sporfe">
+      <div class="side cell label">03 <br>Sporfe + Packaging</div>
+      <div class="main cell prose">
+        <h2>Sporfe + Packaging</h2>
+        <p>Packaging for Sporfe, a spoon, fork, and knife in one utensil: the box, the logo, and a thank-you note.</p>
+        <p>Each material gets its own background. The gold Sporfe sits on a yellowish background and the silver one on gray, so the scene matches the product.</p>
+        <div class="figures">
+          <figure class="full"><img src="assets/id/sporfe-4.jpg" alt="Black box with a gold Sporfe logo, open to show the utensil and a thank-you note" loading="lazy"></figure>
+          <figure><img src="assets/id/sporfe-5.jpg" alt="Close view of the utensil in its foam tray, showing the serrated knife edge" loading="lazy"></figure>
+          <figure><img src="assets/id/sporfe-6.jpg" alt="The open box from the side" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+  </div></main>
+
+  <footer class="site-footer">
+    <div class="wrap"><div class="frame">
+      <span>© 2026 Jiwan Park</span>
+      <nav>
+        <a href="mailto:jiwanpark0212@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/jiwan-park">LinkedIn</a>
+      </nav>
+    </div></div>
+  </footer>
+  <script>
+    // Back returns to wherever the visitor came from on this site; otherwise to the project list
+    document.querySelector(".back").addEventListener("click", (e) => {
+      if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  </script>
+</body>
+</html>
