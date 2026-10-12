@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About | Jiwan Park</title>
   <meta name="description" content="About Jiwan Park, a UX design student at SCAD.">
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
   <header class="site-header">
@@ -64,5 +64,44 @@
       </nav>
     </div></div>
   </footer>
+  <script>
+    // Smooth open and close for the expandable sections
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var ease = 'cubic-bezier(.2, .7, .2, 1)';
+      document.querySelectorAll('details.acc').forEach(function (el) {
+        var summary = el.querySelector('summary');
+        var body = el.querySelector('.acc-body');
+        var anim = null, fade = null;
+        function run(from, to, opening) {
+          if (anim) anim.cancel();
+          if (fade) fade.cancel();
+          el.style.overflow = 'hidden';
+          anim = el.animate({ height: [from + 'px', to + 'px'] }, { duration: 320, easing: ease });
+          fade = body.animate({ opacity: opening ? [0, 1] : [1, 0] }, { duration: opening ? 320 : 180, easing: 'ease', fill: 'forwards' });
+          anim.onfinish = function () {
+            if (!opening) el.open = false;
+            el.classList.remove('is-closing');
+            el.style.overflow = '';
+            fade.cancel();
+            anim = fade = null;
+          };
+        }
+        summary.addEventListener('click', function (e) {
+          if (reduce.matches || !el.animate) return;
+          e.preventDefault();
+          var from = el.offsetHeight;
+          if (el.open && !el.classList.contains('is-closing')) {
+            el.classList.add('is-closing');
+            run(from, summary.offsetHeight, false);
+          } else {
+            el.classList.remove('is-closing');
+            el.open = true;
+            run(from, summary.offsetHeight + body.offsetHeight, true);
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

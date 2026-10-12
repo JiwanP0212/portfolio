@@ -346,11 +346,12 @@ main:has(.cv-group) + .site-footer { border-top-width: .5px; margin-top: -.5px; 
 }
 .acc summary::-webkit-details-marker { display: none; }
 .acc summary h2 { margin: 0; font-size: clamp(19px, 1.9vw, 24px); letter-spacing: -.02em; }
-.acc-icon { position: relative; flex: none; width: 18px; height: 18px; transition: transform .25s; }
+.acc-icon { position: relative; flex: none; width: 18px; height: 18px; transition: transform .32s cubic-bezier(.2, .7, .2, 1); }
 .acc-icon::before, .acc-icon::after { content: ""; position: absolute; background: var(--muted); }
 .acc-icon::before { left: 0; right: 0; top: 50%; height: 1.5px; margin-top: -.75px; }
 .acc-icon::after { top: 0; bottom: 0; left: 50%; width: 1.5px; margin-left: -.75px; }
 .acc[open] .acc-icon { transform: rotate(45deg); }
+.acc.is-closing .acc-icon { transform: none; }
 .acc summary:hover .acc-icon::before, .acc summary:hover .acc-icon::after { background: var(--ink); }
 .acc-body { padding: 0 var(--pad) 34px; color: var(--muted); font-size: clamp(16px, 1.35vw, 18px); line-height: 1.9; }
 .acc-body p { max-width: 72ch; margin: 0 0 1em; }
