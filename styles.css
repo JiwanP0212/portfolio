@@ -355,7 +355,7 @@ main:has(.cv-group) + .site-footer { border-top-width: .5px; margin-top: -.5px; 
 }
 .acc summary::-webkit-details-marker { display: none; }
 .acc summary h2 { margin: 0; font-size: clamp(19px, 1.9vw, 24px); letter-spacing: -.02em; }
-.acc-icon { position: relative; flex: none; width: 18px; height: 18px; transition: transform .32s cubic-bezier(.2, .7, .2, 1); }
+.acc-icon { position: relative; flex: none; width: 18px; height: 18px; transition: transform .46s cubic-bezier(.2, .7, .2, 1); }
 .acc-icon::before, .acc-icon::after { content: ""; position: absolute; background: var(--muted); }
 .acc-icon::before { left: 0; right: 0; top: 50%; height: 1.5px; margin-top: -.75px; }
 .acc-icon::after { top: 0; bottom: 0; left: 50%; width: 1.5px; margin-left: -.75px; }
