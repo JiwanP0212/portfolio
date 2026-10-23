@@ -402,10 +402,14 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   width: 28px; height: 28px; margin: -14px 0 0 -14px;
   border: 1.5px solid #fff; border-radius: 50%;
   mix-blend-mode: difference;
-  opacity: 0; transition: opacity .2s, width .15s, height .15s, margin .15s;
+  opacity: 0;
+  transition: opacity .18s, width .15s, height .15s, margin .15s;
 }
-.cursor-ring.on { opacity: 1; }
-.cursor-ring.down { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+.cursor-ring.on { opacity: .4; }                     /* light while moving */
+.cursor-ring.on.down {                               /* dark for as long as the button is held */
+  opacity: 1; width: 24px; height: 24px; margin: -12px 0 0 -12px;
+  background: rgba(255, 255, 255, .5);
+}
 
 /* Home page scroll: one scroll moves to the next project, each fits the screen */
 :root { --hdr: 69px; }
