@@ -89,7 +89,8 @@ img { display: block; max-width: 100%; }
 .display.flip { line-height: 1.18; }
 
 /* Hero hover effect (built by hero-hover.js) */
-.display.prox { cursor: default; }
+.prox { cursor: default; }
+.prox-word { display: inline-block; white-space: nowrap; }
 .prox-line { display: block; white-space: nowrap; }
 .prox-ch { display: inline-block; white-space: pre; }
 .prox-ch.is-kw { color: var(--ink); }
