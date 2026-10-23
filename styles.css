@@ -106,6 +106,7 @@ h2 {
 /* Hero (home + case study) */
 .hero .cell { padding-top: clamp(48px, 10vh, 120px); padding-bottom: clamp(48px, 9vh, 104px); }
 .hero .lede { margin-top: 28px; }
+.hero-links { display: flex; gap: 28px; margin: 24px 0 0; font-size: 15px; }
 
 /* Fact strip: four cells, one per column */
 .facts { margin: 0; }
