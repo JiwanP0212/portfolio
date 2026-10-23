@@ -79,7 +79,16 @@
           if (fade) fade.cancel();
           el.style.overflow = 'hidden';
           anim = el.animate({ height: [from + 'px', to + 'px'] }, { duration: 560, easing: ease });
-          fade = body.animate({ opacity: opening ? [0, 1] : [1, 0] }, { duration: opening ? 560 : 260, easing: 'ease', fill: 'forwards' });
+          if (opening) {
+            fade = body.animate({ opacity: [0, 1] }, { duration: 560, easing: 'ease', fill: 'forwards' });
+          } else {
+            // closing: a soft edge sweeps up through the text, so the bottom lines vanish first
+            var g = 'linear-gradient(to bottom, #000 0%, #000 33.3%, transparent 66.6%, transparent 100%)';
+            var m = { maskImage: g, webkitMaskImage: g, maskSize: '100% 300%', webkitMaskSize: '100% 300%', maskRepeat: 'no-repeat', webkitMaskRepeat: 'no-repeat' };
+            var a = Object.assign({ maskPosition: '0 0', webkitMaskPosition: '0 0' }, m);
+            var z = Object.assign({ maskPosition: '0 100%', webkitMaskPosition: '0 100%' }, m);
+            fade = body.animate([a, z], { duration: 560, easing: ease, fill: 'forwards' });
+          }
           anim.onfinish = function () {
             if (!opening) el.open = false;
             el.classList.remove('is-closing');
