@@ -2,10 +2,10 @@
    Words inside <em> get the bigger swell. Mouse only; skipped for touch
    and for people who have "reduce motion" turned on. */
 (function () {
-  var BASE_MAX = 1.3;     // how big normal letters get under the cursor
-  var KEYWORD_MAX = 1.85; // how big the <em> words get
-  var RADIUS = 150;       // px, how far the cursor's pull reaches
-  var EASE = 0.16;        // 0 to 1, higher is snappier
+  var BASE_MAX = 1.08;    // how big normal letters get under the cursor
+  var KEYWORD_MAX = 1.3;  // how big the <em> words get
+  var RADIUS = 120;       // px, how far the cursor's pull reaches
+  var EASE = 0.12;        // 0 to 1, higher is snappier
 
   var root = document.querySelector(".display.flip");
   if (!root) return;
