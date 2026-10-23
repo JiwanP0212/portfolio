@@ -410,7 +410,11 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   opacity: 1; width: 22px; height: 22px; margin: -11px 0 0 -11px;
 }
 
-/* Home page scroll: projects sit one after another as usual. site.js adds a stop at the end
-   of each project and settles the page onto a project when you stop near its edge. */
+/* Home page scroll: normal scrolling. When you stop near the top of a project,
+   the browser eases the page onto it. Anywhere else the scroll stays free. */
 :root { --hdr: 69px; }
 html { scroll-padding-top: var(--hdr); }
+@media (min-width: 900px) and (min-height: 640px) {
+  html.snap { scroll-snap-type: y proximity; }
+  html.snap .project { scroll-snap-align: start; scroll-margin-top: 0; }
+}
