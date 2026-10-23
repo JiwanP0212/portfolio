@@ -395,18 +395,6 @@ main:has(.cv-group) + .site-footer { border-top-width: .5px; margin-top: -.5px; 
   .facts.stack > div + div { border-top: 1px solid var(--line); }
 }
 
-/* Grid cells wake up under the cursor (home page) */
-@media (hover: hover) {
-  .facts > div,
-  .project-info > * { transition: background-color .25s; }
-  .facts > div:hover,
-  .project-info > *:hover { background-color: #f9fafc; }
-  .project-info > *:hover .tags li { background: var(--line); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .facts > div, .project-info > * { transition: none; }
-}
-
 /* Cursor: dot + ring (built by site.js). Native cursor returns if JS or mouse is missing. */
 :root { --accent: #2f5bea; }
 html.has-cursor, html.has-cursor * { cursor: none !important; }
@@ -428,3 +416,26 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .cursor-ring.down { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
 .cursor-ring.hot.down { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
 @media (prefers-reduced-motion: reduce) { .cursor-ring { transition: opacity .2s; } }
+
+/* Home page scroll: one scroll moves to the next project, each fits the screen */
+:root { --hdr: 69px; }
+html { scroll-padding-top: var(--hdr); }
+@media (min-width: 900px) and (min-height: 640px) {
+  html.snap { scroll-snap-type: y mandatory; }
+  html.snap .hero,
+  html.snap .project { scroll-snap-align: start; scroll-snap-stop: always; }
+  html.snap .site-footer { scroll-snap-align: end; }
+  html.snap .project {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--hdr));
+    scroll-margin-top: 0;
+  }
+  html.snap .project .preview {
+    flex: 1 1 0;
+    min-height: 200px;
+    aspect-ratio: auto;
+    width: 100%;
+  }
+  html.snap .project .project-info { flex: none; }
+}
