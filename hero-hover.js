@@ -49,7 +49,7 @@
         L.push(rec); all.push(rec);
       });
       root.appendChild(line);
-      lines.push({ el: line, letters: L, cy: 0 });
+      lines.push({ el: line, letters: L, cy: 0, h: 0 });
     });
   }
 
@@ -69,6 +69,7 @@
     lines.forEach(function (l) {
       var b = l.el.getBoundingClientRect();
       l.cy = b.top + window.scrollY + b.height * 0.6;
+      l.h = b.height;
     });
   }
 
@@ -77,13 +78,22 @@
     if (!enabled) { reset(); return; }
     var moving = false;
     var px = mx + window.scrollX, py = my + window.scrollY;
-    lines.forEach(function (l) {
+    // Only the line the cursor is on reacts. Between lines, the closer one wins.
+    var act = -1, best = Infinity;
+    if (active) {
+      lines.forEach(function (l, i) {
+        var d = Math.abs(py - l.cy);
+        if (d < best) { best = d; act = i; }
+      });
+      if (act > -1 && best > lines[act].h * 0.65) act = -1;
+    }
+    lines.forEach(function (l, li) {
       var x = left;
       l.letters.forEach(function (o) {
         var cx = x + (o.w * o.s) / 2;
         var target = 1;
-        if (active && !o.space) {
-          var dx = px - cx, dy = (py - l.cy) * 1.3;
+        if (li === act && !o.space) {
+          var dx = px - cx, dy = py - l.cy;
           var g = Math.exp(-(dx * dx + dy * dy) / (RADIUS * RADIUS));
           target = 1 + ((o.kw ? KEYWORD_MAX : BASE_MAX) - 1) * g;
         }
