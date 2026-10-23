@@ -413,3 +413,15 @@ main:has(.cv-group) + .site-footer { border-top-width: .5px; margin-top: -.5px; 
 @media (prefers-reduced-motion: reduce) {
   .swap > p { transition: none; transform: none !important; }
 }
+
+/* Grid cells wake up under the cursor (home page) */
+@media (hover: hover) {
+  .facts > div,
+  .project-info > * { transition: background-color .25s; }
+  .facts > div:hover,
+  .project-info > *:hover { background-color: #f9fafc; }
+  .project-info > *:hover .tags li { background: var(--line); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .facts > div, .project-info > * { transition: none; }
+}
