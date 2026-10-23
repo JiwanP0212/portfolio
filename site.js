@@ -11,6 +11,38 @@
   window.addEventListener("resize", setHdr);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(setHdr);
 
+
+  // Home page: one scroll gesture moves exactly one project (mouse wheel or trackpad)
+  if (root.classList.contains("snap") && matchMedia("(min-width: 900px) and (min-height: 640px)").matches) {
+    var locked = false, lastWheel = 0;
+    var targets = function () {
+      var h = hdr ? hdr.offsetHeight : 69;
+      var t = [0];
+      document.querySelectorAll(".project").forEach(function (p) {
+        t.push(Math.round(p.getBoundingClientRect().top + window.scrollY - h));
+      });
+      t.push(Math.max(0, root.scrollHeight - window.innerHeight));
+      return t;
+    };
+    var release = function () {
+      if (Date.now() - lastWheel > 120) locked = false; else setTimeout(release, 100);
+    };
+    window.addEventListener("wheel", function (e) {
+      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+      e.preventDefault();
+      lastWheel = Date.now();
+      if (locked || Math.abs(e.deltaY) < 4) return;
+      var t = targets(), y = window.scrollY, cur = 0;
+      t.forEach(function (v, i) { if (Math.abs(v - y) < Math.abs(t[cur] - y)) cur = i; });
+      var next = e.deltaY > 0 ? Math.min(cur + 1, t.length - 1) : Math.max(cur - 1, 0);
+      // if we are between two points, head for the next one in the scroll direction
+      if (next === cur) { if (t[cur] > y + 2 && e.deltaY > 0) next = cur; else if (t[cur] < y - 2 && e.deltaY < 0) next = cur; }
+      locked = true;
+      window.scrollTo({ top: t[next], behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+      setTimeout(release, 700);
+    }, { passive: false });
+  }
+
   if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 

@@ -428,14 +428,11 @@ html { scroll-padding-top: var(--hdr); }
   html.snap .project {
     display: flex;
     flex-direction: column;
-    min-height: calc(100svh - var(--hdr));
+    justify-content: center;
+    height: calc(100svh - var(--hdr));
     scroll-margin-top: 0;
   }
-  html.snap .project .preview {
-    flex: 1 1 0;
-    min-height: 200px;
-    aspect-ratio: auto;
-    width: 100%;
-  }
+  /* The image keeps its full shape. It only trims when the screen is too short. */
+  html.snap .project .preview { flex: 0 1 auto; min-height: 200px; width: 100%; }
   html.snap .project .project-info { flex: none; }
 }
