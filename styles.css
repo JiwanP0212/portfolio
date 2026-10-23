@@ -406,27 +406,9 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   transition: opacity .18s, width .15s, height .15s, margin .15s;
 }
 .cursor-ring.on { opacity: .4; }                     /* light while moving */
-.cursor-ring.on.down {                               /* dark for as long as the button is held */
-  opacity: 1; width: 24px; height: 24px; margin: -12px 0 0 -12px;
-  background: rgba(255, 255, 255, .5);
-}
+.cursor-ring.on.down { opacity: 1; }                 /* darker outline while the button is held */
 
-/* Home page scroll: one scroll moves to the next project, each fits the screen */
+/* Home page scroll: projects sit one after another as usual. site.js adds a stop at the end
+   of each project and settles the page onto a project when you stop near its edge. */
 :root { --hdr: 69px; }
 html { scroll-padding-top: var(--hdr); }
-@media (min-width: 900px) and (min-height: 640px) {
-  html.snap { scroll-snap-type: y mandatory; }
-  html.snap .hero,
-  html.snap .project { scroll-snap-align: start; scroll-snap-stop: always; }
-  html.snap .site-footer { scroll-snap-align: end; }
-  html.snap .project {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: calc(100svh - var(--hdr));
-    scroll-margin-top: 0;
-  }
-  /* The image keeps its full shape. It only trims when the screen is too short. */
-  html.snap .project .preview { flex: 0 1 auto; min-height: 200px; width: 100%; }
-  html.snap .project .project-info { flex: none; }
-}

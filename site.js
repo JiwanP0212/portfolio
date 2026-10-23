@@ -1,4 +1,4 @@
-/* Site-wide touches: header height, one-scroll-per-project on the home page, and the cursor.
+/* Site-wide touches: header height (for scroll alignment) and the cursor.
    The cursor is a single ring. Mouse only; touch devices keep their normal behavior. */
 (function () {
   var root = document.documentElement;
@@ -11,14 +11,12 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(setHdr);
 
 
-  // Home page: one scroll gesture moves exactly one project (mouse wheel or trackpad).
-  // A new swipe takes over right away, even while the page is still moving.
+  // Home page: scroll like any other site, but a single swipe can't carry you past the end
+  // of a project. Inside a project it's free; at the edge the page stops, and the next swipe goes on.
   if (root.classList.contains("snap") && matchMedia("(min-width: 900px) and (min-height: 640px)").matches) {
-    var DURATION = 850;                // ms per move, raise it to go slower
-    var lastWheel = 0, lastAbs = 0, lastDir = 0, lastTrigger = 0;
-    var handled = false, animating = false, tIdx = 0, raf1 = 0;
-    var instant = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var targets = function () {
+    var lastWheel = 0, lastAbs = 0, lastDir = 0;
+    var sum = 0, startY = 0, limUp = 0, limDown = 0, blocked = false;
+    var walls = function () {
       var h = hdr ? hdr.offsetHeight : 69;
       var t = [0];
       document.querySelectorAll(".project").forEach(function (p) {
@@ -27,47 +25,42 @@
       t.push(Math.max(0, root.scrollHeight - window.innerHeight));
       return t;
     };
-    var easeOut = function (p) { return 1 - Math.pow(1 - p, 4); };   // starts fast, settles gently
-    var go = function (to) {
-      var from = window.scrollY, t0 = performance.now();
-      cancelAnimationFrame(raf1);
-      if (instant || Math.abs(to - from) < 2) {
-        window.scrollTo({ top: to, behavior: "instant" }); animating = false; return;
-      }
-      root.style.scrollSnapType = "none";
-      animating = true;
-      raf1 = requestAnimationFrame(function step(now) {
-        var p = Math.min(1, (now - t0) / DURATION);
-        window.scrollTo({ top: from + (to - from) * easeOut(p), behavior: "instant" });
-        if (p < 1) raf1 = requestAnimationFrame(step);
-        else { animating = false; root.style.scrollSnapType = ""; }
-      });
-    };
     window.addEventListener("wheel", function (e) {
       if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-      e.preventDefault();
-      var now = Date.now(), abs = Math.abs(e.deltaY), dir = e.deltaY > 0 ? 1 : -1;
-      var since = now - lastTrigger, gap = now - lastWheel;
-      // New swipe: a pause, the other direction, a fresh push on top of a fading tail,
-      // or a separate mouse-wheel click. A fading tail alone never counts.
-      var fresh = gap > 140
-        || (dir !== lastDir && since > 120)
-        || (abs > 12 && abs > lastAbs * 1.5 + 3 && since > 300)
-        || (abs >= 50 && abs === lastAbs && since > 120);
+      var now = Date.now(), dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+      var abs = Math.abs(dy), dir = dy > 0 ? 1 : -1, gap = now - lastWheel;
+      // A new swipe: after a pause, in the other direction, or a fresh push on a fading tail
+      var fresh = gap > 140 || dir !== lastDir || (abs > 12 && abs > lastAbs * 1.5 + 3);
       lastWheel = now; lastAbs = abs; lastDir = dir;
-      if (fresh) handled = false;
-      if (handled || abs < 1) return;
-      var t = targets(), y = window.scrollY, base = tIdx;
-      if (!animating) {
-        base = 0;
-        t.forEach(function (v, i) { if (Math.abs(v - y) < Math.abs(t[base] - y)) base = i; });
+      if (fresh) {
+        blocked = false; sum = 0;
+        var w = walls(), y = window.scrollY;
+        for (var i = 0; i < w.length; i++) if (Math.abs(w[i] - y) < 60) { y = w[i]; break; }
+        startY = y;
+        var above = w.filter(function (v) { return v < y - 2; });
+        var below = w.filter(function (v) { return v > y + 2; });
+        limUp = above.length ? above[above.length - 1] : 0;
+        limDown = below.length ? below[0] : w[w.length - 1];
       }
-      var next = dir > 0 ? Math.min(base + 1, t.length - 1) : Math.max(base - 1, 0);
-      handled = true;
-      if (next === base && !animating) return;
-      tIdx = next; lastTrigger = now;
-      go(t[next]);
+      if (blocked) { e.preventDefault(); return; }
+      sum += dy;
+      var pos = startY + sum;
+      if (dy > 0 && pos >= limDown) { e.preventDefault(); blocked = true; window.scrollTo({ top: limDown, behavior: "smooth" }); }
+      else if (dy < 0 && pos <= limUp) { e.preventDefault(); blocked = true; window.scrollTo({ top: limUp, behavior: "smooth" }); }
     }, { passive: false });
+
+    // Stop near the edge of a project and the page settles onto it. Anywhere else, it stays put.
+    var settleTimer = 0;
+    var settle = function () {
+      var w = walls(), y = window.scrollY, zone = Math.max(120, window.innerHeight * 0.2);
+      var best = w[0];
+      w.forEach(function (v) { if (Math.abs(v - y) < Math.abs(best - y)) best = v; });
+      if (Math.abs(best - y) > 2 && Math.abs(best - y) <= zone) window.scrollTo({ top: best, behavior: "smooth" });
+    };
+    window.addEventListener("scroll", function () {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(settle, 160);
+    }, { passive: true });
   }
 
   if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
