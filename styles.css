@@ -256,6 +256,7 @@ figcaption { font-size: 13px; color: var(--muted); margin-top: 10px; }
   /* the 75% line belongs to the side cell so it lands exactly on the fact strip's line */
   .lead > .main { grid-column: 1 / 4; grid-row: 1; border-left: 0; }
   .lead > .side { border-left: 1px solid var(--line); }
+  .lead.solo > .main { grid-column: 1 / -1; }   /* no side cell: title spans the full row */
 }
 .open > .side, .open > .main { grid-column: 1 / -1; border-left: 0; }
 .open > .side { padding-bottom: 0; }
