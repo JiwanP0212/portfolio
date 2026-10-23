@@ -410,6 +410,4 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   opacity: 1; width: 22px; height: 22px; margin: -11px 0 0 -11px;
 }
 
-/* Scrolling is plain and native. The header height is kept so jump links land below it. */
-:root { --hdr: 69px; }
-html { scroll-padding-top: var(--hdr); }
+/* Scrolling is plain and native. */
