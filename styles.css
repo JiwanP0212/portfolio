@@ -405,6 +405,7 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   opacity: 0;
   transition: opacity .18s, width .15s, height .15s, margin .15s;
 }
+.cursor-ring { view-transition-name: cursor; }      /* stays put and solid while pages swap */
 .cursor-ring.on { opacity: .4; }                     /* light while moving */
 .cursor-ring.on.down {                               /* while the button is held: darker outline, smaller ring */
   opacity: 1; width: 22px; height: 22px; margin: -11px 0 0 -11px;
@@ -428,6 +429,9 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .site-header { view-transition-name: site-header; }
 ::view-transition-old(root) { animation: pt-out .3s ease both; }
 ::view-transition-new(root) { animation: pt-in .65s cubic-bezier(.2, .7, .2, 1) both; }
+::view-transition-group(cursor) { animation: none; z-index: 9999; mix-blend-mode: difference; }
+::view-transition-old(cursor) { display: none; }
+::view-transition-new(cursor) { animation: none; }
 @keyframes pt-out { to { opacity: 0; } }
 @keyframes pt-in { from { opacity: 0; transform: translateY(16px); } }
 @media (prefers-reduced-motion: reduce) {

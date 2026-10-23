@@ -45,7 +45,13 @@
   // Pick up where the cursor was on the last page, so it doesn't blink out between pages
   try {
     var saved = JSON.parse(sessionStorage.getItem(KEY) || "null");
-    if (saved && Date.now() - saved.t < 4000) { lastX = saved.x; lastY = saved.y; showAt(saved.x, saved.y); }
+    if (saved && Date.now() - saved.t < 4000) {
+      lastX = saved.x; lastY = saved.y;
+      ring.style.transition = "none";          // already visible on the first frame, no fade-in
+      showAt(saved.x, saved.y);
+      ring.getBoundingClientRect();
+      requestAnimationFrame(function () { ring.style.transition = ""; });
+    }
   } catch (err) {}
   window.addEventListener("pagehide", function () {
     try { sessionStorage.setItem(KEY, JSON.stringify({ x: lastX, y: lastY, t: Date.now() })); } catch (err) {}
