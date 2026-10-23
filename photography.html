@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photography | Jiwan Park</title>
+  <meta name="description" content="Photography by Jiwan Park.">
+  <link rel="stylesheet" href="styles.css?v=57">
+  <script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
+  <noscript><style>.shot { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap"><div class="frame">
+      <a class="name" href="./">Jiwan Park</a>
+      <nav>
+        <a href="./" aria-current="page">Work</a>
+        <a href="about">About</a>
+        <a href="contact">Contact</a>
+      </nav>
+    </div></div>
+  </header>
+
+  <main class="wrap"><div class="frame">
+    <a class="back row" href="./#p6">← Back</a>
+    <section class="hero cols row lead">
+      <div class="side cell label">Photography</div>
+      <div class="main cell">
+        <h1 class="display" data-prox>Photography</h1>
+        <p class="lede">Things I noticed along the way.</p>
+      </div>
+    </section>
+
+    <section class="gallery-wrap row">
+      <div class="gallery" id="gallery">
+        <button class="shot" type="button" style="--ar:1.5" aria-label="Photo 1"><span class="shot-no">01</span></button>
+        <button class="shot" type="button" style="--ar:0.8" aria-label="Photo 2"><span class="shot-no">02</span></button>
+        <button class="shot" type="button" style="--ar:1" aria-label="Photo 3"><span class="shot-no">03</span></button>
+        <button class="shot" type="button" style="--ar:0.667" aria-label="Photo 4"><span class="shot-no">04</span></button>
+        <button class="shot" type="button" style="--ar:1.5" aria-label="Photo 5"><span class="shot-no">05</span></button>
+        <button class="shot" type="button" style="--ar:1.333" aria-label="Photo 6"><span class="shot-no">06</span></button>
+        <button class="shot" type="button" style="--ar:0.8" aria-label="Photo 7"><span class="shot-no">07</span></button>
+        <button class="shot" type="button" style="--ar:1.5" aria-label="Photo 8"><span class="shot-no">08</span></button>
+        <button class="shot" type="button" style="--ar:1" aria-label="Photo 9"><span class="shot-no">09</span></button>
+        <button class="shot" type="button" style="--ar:0.667" aria-label="Photo 10"><span class="shot-no">10</span></button>
+        <button class="shot" type="button" style="--ar:1.333" aria-label="Photo 11"><span class="shot-no">11</span></button>
+        <button class="shot" type="button" style="--ar:1.5" aria-label="Photo 12"><span class="shot-no">12</span></button>
+        <button class="shot" type="button" style="--ar:0.8" aria-label="Photo 13"><span class="shot-no">13</span></button>
+        <button class="shot" type="button" style="--ar:1" aria-label="Photo 14"><span class="shot-no">14</span></button>
+      </div>
+    </section>
+
+    <a class="next cols lead" href="work/wally">
+      <div class="side cell"><span class="label">Back to the start</span><img class="next-thumb" src="assets/wally/hero.jpg" alt="Wally logo beside two phones showing the app" loading="lazy"></div>
+      <div class="main cell"><div class="display">Wally →</div><p class="next-desc">A financial literacy app for college students who find money management stressful.</p></div>
+    </a>
+  </div></main>
+
+  <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" type="button">Close</button>
+    <button class="lb-nav prev" type="button" aria-label="Previous photo">←</button>
+    <div class="lb-stage" id="lb-stage"></div>
+    <button class="lb-nav next" type="button" aria-label="Next photo">→</button>
+    <div class="lb-count" id="lb-count" aria-live="polite"></div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap"><div class="frame">
+      <span>© 2026 Jiwan Park</span>
+      <nav>
+        <a href="mailto:jiwanpark0212@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/jiwan-park" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </nav>
+    </div></div>
+  </footer>
+  <script>
+    // Back returns to wherever the visitor came from on this site; otherwise to the project list
+    document.querySelector(".back").addEventListener("click", (e) => {
+      if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  </script>
+  <script src="gallery.js?v=2"></script>
+  <script src="hero-hover.js?v=4"></script>
+  <script src="site.js?v=12"></script>
+</body>
+</html>
