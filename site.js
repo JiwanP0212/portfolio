@@ -61,6 +61,12 @@
     lastX = e.clientX; lastY = e.clientY;
     showAt(e.clientX, e.clientY);
   }, { passive: true });
+  // Hover changes after a scroll or a page change come with the pointer's position; use it so the ring never lags behind
+  window.addEventListener("pointerover", function (e) {
+    if (e.pointerType === "touch") return;
+    lastX = e.clientX; lastY = e.clientY;
+    showAt(e.clientX, e.clientY);
+  }, { passive: true });
   var press = function () { ring.classList.add("down"); };
   var release = function () { ring.classList.remove("down"); };
   window.addEventListener("pointerdown", function (e) { if (e.pointerType !== "touch") press(); });
