@@ -426,8 +426,8 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 /* Page transitions: pages fade into each other, the header stays put */
 @view-transition { navigation: auto; }
 .site-header { view-transition-name: site-header; }
-::view-transition-old(root) { animation: pt-out .22s ease both; }
-::view-transition-new(root) { animation: pt-in .5s cubic-bezier(.2, .7, .2, 1) both; }
+::view-transition-old(root) { animation: pt-out .3s ease both; }
+::view-transition-new(root) { animation: pt-in .65s cubic-bezier(.2, .7, .2, 1) both; }
 @keyframes pt-out { to { opacity: 0; } }
 @keyframes pt-in { from { opacity: 0; transform: translateY(16px); } }
 @media (prefers-reduced-motion: reduce) {
