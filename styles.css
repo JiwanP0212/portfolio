@@ -226,12 +226,12 @@ figcaption { font-size: 13px; color: var(--muted); margin-top: 10px; }
 .outcomes strong { display: block; font: 600 clamp(32px, 4vw, 52px)/1 var(--sans); letter-spacing: -.03em; margin-bottom: 8px; }
 .outcomes span { color: var(--muted); font-size: 14px; }
 
-.next .display { font-size: clamp(28px, 3.6vw, 48px); color: var(--faint); transition: color .75s ease; }
+.next .display { font-size: clamp(28px, 3.6vw, 48px); color: var(--faint); transition: color .4s ease; }
 .next:hover .display { color: var(--ink); }
 .next .label { display: block; }
 .next-thumb { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; margin-top: 14px; }
 .duo.next-thumb { display: grid; grid-template-columns: 2fr 1fr; border: 1px solid var(--line); }
-.next-desc { margin: 12px 0 0; max-width: 44ch; color: var(--faint); font-size: clamp(16px, 1.3vw, 19px); transition: color .75s ease; }
+.next-desc { margin: 12px 0 0; max-width: 44ch; color: var(--faint); font-size: clamp(16px, 1.3vw, 19px); transition: color .4s ease; }
 .next:hover .next-desc { color: var(--muted); }
 
 /* About */
