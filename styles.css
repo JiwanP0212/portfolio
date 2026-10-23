@@ -395,25 +395,6 @@ main:has(.cv-group) + .site-footer { border-top-width: .5px; margin-top: -.5px; 
   .facts.stack > div + div { border-top: 1px solid var(--line); }
 }
 
-/* Project cards: on hover the description gives way to one finding from the research */
-.swap { display: grid; }
-.swap > p { grid-area: 1 / 1; margin: 0 0 18px; transition: opacity .25s, transform .25s; }
-.swap .notice { opacity: 0; transform: translateY(6px); color: var(--ink); pointer-events: none; }
-.swap .notice .label { display: block; margin-bottom: 6px; }
-@media (hover: hover) {
-  .project:hover .swap .desc,
-  .project:focus-visible .swap .desc { opacity: 0; transform: translateY(-6px); }
-  .project:hover .swap .notice,
-  .project:focus-visible .swap .notice { opacity: 1; transform: none; }
-}
-@media (hover: none) {
-  .swap { display: block; }
-  .swap .notice { opacity: 1; transform: none; margin-top: -6px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .swap > p { transition: none; transform: none !important; }
-}
-
 /* Grid cells wake up under the cursor (home page) */
 @media (hover: hover) {
   .facts > div,
