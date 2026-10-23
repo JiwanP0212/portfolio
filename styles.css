@@ -410,11 +410,6 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   opacity: 1; width: 22px; height: 22px; margin: -11px 0 0 -11px;
 }
 
-/* Home page scroll: normal scrolling. When you stop near the top of a project,
-   the browser eases the page onto it. Anywhere else the scroll stays free. */
+/* Scrolling is plain and native. The header height is kept so jump links land below it. */
 :root { --hdr: 69px; }
 html { scroll-padding-top: var(--hdr); }
-@media (min-width: 900px) and (min-height: 640px) {
-  html.snap { scroll-snap-type: y proximity; }
-  html.snap .project { scroll-snap-align: start; scroll-margin-top: 0; }
-}
