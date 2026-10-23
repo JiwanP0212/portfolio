@@ -11,6 +11,24 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(setHdr);
 
 
+  // Project images drift a little toward the cursor (the zoom itself is CSS)
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var media = null;
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      var m = e.target.closest ? e.target.closest(".media") : null;
+      if (m !== media) {
+        if (media) { media.style.removeProperty("--mx"); media.style.removeProperty("--my"); }
+        media = m;
+      }
+      if (m) {
+        var r = m.getBoundingClientRect();
+        m.style.setProperty("--mx", (((e.clientX - r.left) / r.width) - 0.5) * 2);
+        m.style.setProperty("--my", (((e.clientY - r.top) / r.height) - 0.5) * 2);
+      }
+    }, { passive: true });
+  }
+
   if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 

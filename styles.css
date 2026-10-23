@@ -411,3 +411,14 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 }
 
 /* Scrolling is plain and native. */
+
+/* Project images: slow zoom and a small drift toward the cursor on hover */
+.media { overflow: hidden; border-bottom: 1px solid var(--line); }
+.project.divide .media { border-top: 1px solid var(--line); }
+.project .media > .preview,
+.project.divide .media > .preview { border: 0; transition: transform .9s cubic-bezier(.2, .7, .2, 1), filter .3s; will-change: transform; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .media:hover > .preview {
+    transform: scale(1.06) translate(calc(var(--mx, 0) * -1.2%), calc(var(--my, 0) * -1.2%));
+  }
+}
