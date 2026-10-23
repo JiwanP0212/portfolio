@@ -121,16 +121,28 @@
 
   <script src="hero-hover.js?v=3"></script>
   <script>
-    // Highlight the index entry for the project currently in view
-    const links = document.querySelectorAll(".work-index a");
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        links.forEach((a) => a.classList.toggle("active", a.hash === "#" + e.target.id));
+    // Light up the index entry for the project that takes up the most of the screen
+    const links = [...document.querySelectorAll(".work-index a")];
+    const projects = [...document.querySelectorAll(".project")];
+    const header = document.querySelector(".site-header");
+    let ticking = false;
+    function update() {
+      ticking = false;
+      const top = header ? header.offsetHeight : 0, bottom = window.innerHeight;
+      let best = 0, bestVisible = -1;
+      projects.forEach((p, i) => {
+        const r = p.getBoundingClientRect();
+        const visible = Math.min(r.bottom, bottom) - Math.max(r.top, top);
+        if (visible > bestVisible) { bestVisible = visible; best = i; }
       });
-    }, { rootMargin: "-40% 0px -55% 0px" });
-    document.querySelectorAll(".project").forEach((p) => io.observe(p));
-    links[0]?.classList.add("active");
+      // at the very bottom of the page the last project is the one in view
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) best = projects.length - 1;
+      links.forEach((a, i) => a.classList.toggle("active", i === best));
+    }
+    function request() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    update();
   </script>
   <script src="site.js?v=8"></script>
 </body>
