@@ -37,11 +37,23 @@
   ring.setAttribute("aria-hidden", "true");
   document.body.appendChild(ring);
 
-  var shown = false;
+  var shown = false, lastX = 0, lastY = 0, KEY = "cursor-pos";
+  var showAt = function (x, y) {
+    ring.style.transform = "translate(" + x + "px," + y + "px)";
+    if (!shown) { shown = true; root.classList.add("has-cursor"); ring.classList.add("on"); }
+  };
+  // Pick up where the cursor was on the last page, so it doesn't blink out between pages
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(KEY) || "null");
+    if (saved && Date.now() - saved.t < 4000) { lastX = saved.x; lastY = saved.y; showAt(saved.x, saved.y); }
+  } catch (err) {}
+  window.addEventListener("pagehide", function () {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ x: lastX, y: lastY, t: Date.now() })); } catch (err) {}
+  });
   window.addEventListener("pointermove", function (e) {
     if (e.pointerType === "touch") return;
-    ring.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
-    if (!shown) { shown = true; root.classList.add("has-cursor"); ring.classList.add("on"); }
+    lastX = e.clientX; lastY = e.clientY;
+    showAt(e.clientX, e.clientY);
   }, { passive: true });
   var press = function () { ring.classList.add("down"); };
   var release = function () { ring.classList.remove("down"); };
