@@ -1,6 +1,5 @@
-/* Site-wide touches: header height for the scroll layout, and the cursor.
-   The cursor is a small dot plus a ring. The ring grows and turns blue over
-   anything clickable. Mouse only; touch devices keep their normal behavior. */
+/* Site-wide touches: header height, one-scroll-per-project on the home page, and the cursor.
+   The cursor is a single ring. Mouse only; touch devices keep their normal behavior. */
 (function () {
   var root = document.documentElement;
 
@@ -14,7 +13,9 @@
 
   // Home page: one scroll gesture moves exactly one project (mouse wheel or trackpad)
   if (root.classList.contains("snap") && matchMedia("(min-width: 900px) and (min-height: 640px)").matches) {
-    var locked = false, lastWheel = 0;
+    var DURATION = 1000;               // ms per move, raise it to go slower
+    var busyUntil = 0, lastWheel = 0, lastAbs = 0, lastDir = 0, handled = false, raf1 = 0;
+    var instant = matchMedia("(prefers-reduced-motion: reduce)").matches;
     var targets = function () {
       var h = hdr ? hdr.offsetHeight : 69;
       var t = [0];
@@ -24,22 +25,34 @@
       t.push(Math.max(0, root.scrollHeight - window.innerHeight));
       return t;
     };
-    var release = function () {
-      if (Date.now() - lastWheel > 120) locked = false; else setTimeout(release, 100);
+    var ease = function (p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+    var go = function (to) {
+      var from = window.scrollY, t0 = performance.now();
+      if (instant || Math.abs(to - from) < 2) { window.scrollTo({ top: to, behavior: "instant" }); return; }
+      root.style.scrollSnapType = "none";
+      cancelAnimationFrame(raf1);
+      raf1 = requestAnimationFrame(function step(now) {
+        var p = Math.min(1, (now - t0) / DURATION);
+        window.scrollTo({ top: from + (to - from) * ease(p), behavior: "instant" });
+        if (p < 1) raf1 = requestAnimationFrame(step); else root.style.scrollSnapType = "";
+      });
     };
     window.addEventListener("wheel", function (e) {
       if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
       e.preventDefault();
-      lastWheel = Date.now();
-      if (locked || Math.abs(e.deltaY) < 4) return;
+      var now = Date.now(), abs = Math.abs(e.deltaY), dir = e.deltaY > 0 ? 1 : -1;
+      if (now < busyUntil) { lastWheel = now; lastAbs = abs; lastDir = dir; return; }
+      // A new swipe starts after a pause, a push in the other direction, or a fresh burst
+      // on top of the previous swipe's fading tail. A fading tail alone never counts.
+      if (now - lastWheel > 140 || dir !== lastDir || abs > lastAbs * 1.5 + 3) handled = false;
+      lastWheel = now; lastAbs = abs; lastDir = dir;
+      if (handled || abs < 4) return;
       var t = targets(), y = window.scrollY, cur = 0;
       t.forEach(function (v, i) { if (Math.abs(v - y) < Math.abs(t[cur] - y)) cur = i; });
-      var next = e.deltaY > 0 ? Math.min(cur + 1, t.length - 1) : Math.max(cur - 1, 0);
-      // if we are between two points, head for the next one in the scroll direction
-      if (next === cur) { if (t[cur] > y + 2 && e.deltaY > 0) next = cur; else if (t[cur] < y - 2 && e.deltaY < 0) next = cur; }
-      locked = true;
-      window.scrollTo({ top: t[next], behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
-      setTimeout(release, 700);
+      var next = dir > 0 ? Math.min(cur + 1, t.length - 1) : Math.max(cur - 1, 0);
+      handled = true;
+      busyUntil = now + (instant ? 0 : DURATION + 80);
+      go(t[next]);
     }, { passive: false });
   }
 
@@ -47,38 +60,19 @@
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var ring = document.createElement("div");
-  var dot = document.createElement("div");
-  ring.className = "cursor-ring"; dot.className = "cursor-dot";
-  ring.setAttribute("aria-hidden", "true"); dot.setAttribute("aria-hidden", "true");
-  document.body.appendChild(ring); document.body.appendChild(dot);
+  ring.className = "cursor-ring";
+  ring.setAttribute("aria-hidden", "true");
+  document.body.appendChild(ring);
 
-  var CLICKABLE = 'a[href], button, summary, label, select, [role="button"], input[type="submit"]';
-  var x = -100, y = -100, rx = -100, ry = -100, raf = 0, shown = false;
-
-  function frame() {
-    raf = 0;
-    rx += (x - rx) * (reduce ? 1 : 0.22);
-    ry += (y - ry) * (reduce ? 1 : 0.22);
-    ring.style.transform = "translate(" + rx + "px," + ry + "px)";
-    if (Math.abs(x - rx) > 0.1 || Math.abs(y - ry) > 0.1) raf = requestAnimationFrame(frame);
-  }
-
+  var shown = false;
   window.addEventListener("pointermove", function (e) {
     if (e.pointerType === "touch") return;
-    x = e.clientX; y = e.clientY;
-    dot.style.transform = "translate(" + x + "px," + y + "px)";
-    if (!shown) {
-      shown = true; rx = x; ry = y;
-      root.classList.add("has-cursor");
-      ring.classList.add("on"); dot.classList.add("on");
-    }
-    var hot = !!(e.target.closest && e.target.closest(CLICKABLE));
-    ring.classList.toggle("hot", hot); dot.classList.toggle("hot", hot);
-    if (!raf) raf = requestAnimationFrame(frame);
+    ring.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+    if (!shown) { shown = true; root.classList.add("has-cursor"); ring.classList.add("on"); }
   }, { passive: true });
-
   window.addEventListener("pointerdown", function () { ring.classList.add("down"); });
   window.addEventListener("pointerup", function () { ring.classList.remove("down"); });
-  document.addEventListener("pointerleave", function () { ring.classList.remove("on"); dot.classList.remove("on"); shown = false; });
-  window.addEventListener("blur", function () { ring.classList.remove("on"); dot.classList.remove("on"); shown = false; });
+  var hide = function () { ring.classList.remove("on"); shown = false; };
+  document.addEventListener("pointerleave", hide);
+  window.addEventListener("blur", hide);
 })();

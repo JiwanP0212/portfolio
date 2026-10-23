@@ -395,27 +395,17 @@ main:has(.cv-group) + .site-footer { border-top-width: .5px; margin-top: -.5px; 
   .facts.stack > div + div { border-top: 1px solid var(--line); }
 }
 
-/* Cursor: dot + ring (built by site.js). Native cursor returns if JS or mouse is missing. */
-:root { --accent: #2f5bea; }
+/* Cursor: a single ring (built by site.js). Native cursor returns if JS or mouse is missing. */
 html.has-cursor, html.has-cursor * { cursor: none !important; }
-.cursor-ring, .cursor-dot {
-  position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
-  border-radius: 50%; opacity: 0; transition: opacity .2s;
-}
-.cursor-ring.on, .cursor-dot.on { opacity: 1; }
-.cursor-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; background: #fff; mix-blend-mode: difference; }
 .cursor-ring {
-  width: 34px; height: 34px; margin: -17px 0 0 -17px;
-  border: 1.5px solid rgba(27, 51, 85, .5);
-  transition: opacity .2s, width .2s, height .2s, margin .2s, background-color .2s, border-color .2s;
+  position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+  width: 28px; height: 28px; margin: -14px 0 0 -14px;
+  border: 1.5px solid #fff; border-radius: 50%;
+  mix-blend-mode: difference;
+  opacity: 0; transition: opacity .2s, width .15s, height .15s, margin .15s;
 }
-.cursor-ring.hot {
-  width: 54px; height: 54px; margin: -27px 0 0 -27px;
-  border-color: var(--accent); background-color: rgba(47, 91, 234, .14);
-}
-.cursor-ring.down { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
-.cursor-ring.hot.down { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
-@media (prefers-reduced-motion: reduce) { .cursor-ring { transition: opacity .2s; } }
+.cursor-ring.on { opacity: 1; }
+.cursor-ring.down { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
 
 /* Home page scroll: one scroll moves to the next project, each fits the screen */
 :root { --hdr: 69px; }
