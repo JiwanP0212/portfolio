@@ -86,6 +86,14 @@ img { display: block; max-width: 100%; }
 .display em { font-style: normal; color: var(--faint); }
 .display.flip { color: var(--faint); }
 .display.flip em { color: var(--ink); }
+.display.flip { line-height: 1.18; }
+
+/* Hero hover effect (built by hero-hover.js) */
+.display.prox { cursor: default; }
+.prox-line { display: block; white-space: nowrap; }
+.prox-ch { display: inline-block; white-space: pre; }
+.prox-ch.is-kw { color: var(--ink); }
+.prox-gl { display: inline-block; transform-origin: 0 82%; will-change: transform; }
 h2 {
   font: 600 clamp(20px, 2.4vw, 34px)/1.15 var(--sans);
   letter-spacing: -.03em;
