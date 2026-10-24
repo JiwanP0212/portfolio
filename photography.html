@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Photography | Jiwan Park</title>
   <meta name="description" content="Photography by Jiwan Park.">
-  <link rel="stylesheet" href="styles.css?v=59">
+  <link rel="stylesheet" href="styles.css?v=60">
   <script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
+  <script>document.documentElement.classList.add("film-on");</script>
   <noscript><style>.shot { opacity: 1 !important; transform: none !important; }</style></noscript>
 </head>
 <body>
@@ -28,6 +29,19 @@
       <div class="main cell">
         <h1 class="display" data-prox>Photography</h1>
         <p class="lede">Things I noticed along the way.</p>
+      </div>
+    </section>
+
+    <div class="view-bar row">
+      <button class="view-tab on" type="button" data-view="film">Filmstrip</button>
+      <button class="view-tab" type="button" data-view="grid">View all</button>
+    </div>
+
+    <section class="film" id="film" aria-label="Photos, scrolling sideways">
+      <div class="film-pin">
+        <div class="film-track" id="film-track"></div>
+        <div class="film-meta"><span id="film-count">01 / 14</span><span class="film-hint" id="film-hint">Keep scrolling →</span></div>
+        <div class="film-bar"><span class="film-fill" id="film-fill"></span></div>
       </div>
     </section>
 
@@ -82,7 +96,7 @@
       }
     });
   </script>
-  <script src="gallery.js?v=2"></script>
+  <script src="gallery.js?v=4"></script>
   <script src="hero-hover.js?v=5"></script>
   <script src="site.js?v=12"></script>
 </body>
