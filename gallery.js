@@ -97,11 +97,11 @@
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) show(cur + (dx < 0 ? 1 : -1));
   }, { passive: true });
 
-  // 3. Filmstrip: the page scrolls sideways. Vertical scrolling drives the movement 1:1, then the page carries on.
+  // 3. Filmstrip: a sideways scroller. Two-finger swipe, drag, arrows and arrow keys all move it.
   var film = document.getElementById("film");
   if (film) {
-    var track = document.getElementById("film-track"), fill = document.getElementById("film-fill");
-    var fcount = document.getElementById("film-count"), hint = document.getElementById("film-hint");
+    var scroller = document.getElementById("film-scroll"), track = document.getElementById("film-track");
+    var fill = document.getElementById("film-fill"), fcount = document.getElementById("film-count"), hint = document.getElementById("film-hint");
     var calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
     var items = shots.map(function (s, i) {
       var b = document.createElement("button");
@@ -109,66 +109,76 @@
       b.style.setProperty("--ar", s.style.getPropertyValue("--ar") || "1.5");
       b.setAttribute("aria-label", "Open photo " + (i + 1));
       var im = s.querySelector("img"), c;
-      if (im) { c = document.createElement("img"); c.src = im.currentSrc || im.src; c.alt = im.alt || ""; c.decoding = "async"; }
+      if (im) { c = document.createElement("img"); c.src = im.currentSrc || im.src; c.alt = im.alt || ""; c.decoding = "async"; c.draggable = false; }
       else { c = document.createElement("span"); c.className = "shot-no"; c.textContent = (s.querySelector(".shot-no") || {}).textContent || ""; }
       b.appendChild(c);
-      b.addEventListener("click", function () { open(i); });
+      b.addEventListener("click", function () { if (!dragged) open(i); });
       track.appendChild(b);
       return { el: b, img: im ? c : null, left: 0, w: 0 };
     });
 
-    var SPEED = 1.4;   // sideways pixels per scrolled pixel
-    var D = 0, R = 0, start = 0, pinW = 0, hdr = 0, pad = 0, raf2 = 0;
+    var raf2 = 0, viewW = 0, dragged = false;
     function measureFilm() {
-      if (!film.offsetParent && getComputedStyle(film).display === "none") return;
-      hdr = document.querySelector(".site-header").offsetHeight;
-      pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-      pinW = film.querySelector(".film-pin").clientWidth;
-      var last = items[items.length - 1];
+      if (getComputedStyle(film).display === "none") return;
+      viewW = scroller.clientWidth;
       items.forEach(function (o) { o.left = o.el.offsetLeft; o.w = o.el.offsetWidth; });
-      D = Math.max(0, last.left + last.w + pad - pinW);
-      R = D / SPEED;
-      film.style.height = (R + window.innerHeight - hdr) + "px";
-      start = film.getBoundingClientRect().top + window.scrollY - hdr;
       updateFilm();
+    }
+    function nearestIndex() {
+      if (scroller.scrollLeft >= scroller.scrollWidth - viewW - 2) return items.length - 1;
+      var x = scroller.scrollLeft + viewW / 2, idx = 0, best = Infinity;
+      items.forEach(function (o, i) { var d = Math.abs(o.left + o.w / 2 - x); if (d < best) { best = d; idx = i; } });
+      return idx;
     }
     function updateFilm() {
       raf2 = 0;
       if (getComputedStyle(film).display === "none") return;
-      var p = R ? Math.min(1, Math.max(0, (window.scrollY - start) / R)) : 0;
-      var shift = p * D;
-      track.style.transform = "translate3d(" + (-shift) + "px,0,0)";
-      fill.style.transform = "scaleX(" + p + ")";
-      hint.style.opacity = p > 0.02 ? 0 : 1;
-      var nearest = 0, best = Infinity;
-      items.forEach(function (o, i) {
-        var off = o.left + o.w / 2 - shift - pinW / 2;
-        var d = Math.abs(off);
-        if (d < best) { best = d; nearest = i; }
-        o.el.style.opacity = (0.3 + 0.7 * (1 - Math.min(1, d / (pinW * 0.55)))).toFixed(3);
+      var sl = scroller.scrollLeft, max = Math.max(1, scroller.scrollWidth - viewW);
+      fill.style.transform = "scaleX(" + Math.min(1, sl / max) + ")";
+      hint.style.opacity = sl > 20 ? 0 : 1;
+      items.forEach(function (o) {
+        var off = o.left + o.w / 2 - sl - viewW / 2, d = Math.abs(off);
+        o.el.style.opacity = (0.3 + 0.7 * (1 - Math.min(1, d / (viewW * 0.55)))).toFixed(3);
         if (o.img && !calm) o.img.style.transform = "translate3d(" + (-off * 0.05).toFixed(1) + "px,0,0) scale(1.12)";
       });
-      fcount.textContent = String(nearest + 1).padStart(2, "0") + " / " + String(items.length).padStart(2, "0");
+      fcount.textContent = String(nearestIndex() + 1).padStart(2, "0") + " / " + String(items.length).padStart(2, "0");
     }
     function kickFilm() { if (!raf2) raf2 = requestAnimationFrame(updateFilm); }
-    window.addEventListener("scroll", kickFilm, { passive: true });
+    scroller.addEventListener("scroll", kickFilm, { passive: true });
     window.addEventListener("resize", measureFilm);
     window.addEventListener("load", measureFilm);
     measureFilm();
 
-    // arrow keys step one photo at a time
+    function step(dir) {
+      var idx = Math.min(items.length - 1, Math.max(0, nearestIndex() + dir)), o = items[idx];
+      scroller.scrollTo({ left: o.left + o.w / 2 - viewW / 2, behavior: calm ? "auto" : "smooth" });
+    }
+    document.getElementById("film-prev").addEventListener("click", function () { step(-1); });
+    document.getElementById("film-next").addEventListener("click", function () { step(1); });
     document.addEventListener("keydown", function (e) {
       if (!lb.hidden || (e.key !== "ArrowRight" && e.key !== "ArrowLeft")) return;
       if (getComputedStyle(film).display === "none") return;
       var r = film.getBoundingClientRect();
       if (r.top > window.innerHeight || r.bottom < 0) return;
       e.preventDefault();
-      var shiftNow = Math.min(1, Math.max(0, (window.scrollY - start) / (R || 1))) * D, idx = 0, best = Infinity;
-      items.forEach(function (o, i) { var d = Math.abs(o.left + o.w / 2 - shiftNow - pinW / 2); if (d < best) { best = d; idx = i; } });
-      idx = Math.min(items.length - 1, Math.max(0, idx + (e.key === "ArrowRight" ? 1 : -1)));
-      var o = items[idx], target = start + Math.min(D, Math.max(0, o.left + o.w / 2 - pinW / 2)) / SPEED;
-      window.scrollTo({ top: target, behavior: calm ? "auto" : "smooth" });
+      step(e.key === "ArrowRight" ? 1 : -1);
     });
+
+    // drag with a mouse
+    var down = false, sx0 = 0, sl0 = 0;
+    scroller.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      down = true; dragged = false; sx0 = e.clientX; sl0 = scroller.scrollLeft;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx0;
+      if (Math.abs(dx) > 5) { dragged = true; film.classList.add("dragging"); }
+      if (dragged) scroller.scrollLeft = sl0 - dx;
+    });
+    function endDrag() { if (!down) return; down = false; film.classList.remove("dragging"); setTimeout(function () { dragged = false; }, 0); }
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
 
     // Filmstrip / View all
     var root = document.documentElement;
@@ -177,8 +187,6 @@
         var grid = t.getAttribute("data-view") === "grid";
         root.classList.toggle("show-all", grid);
         Array.prototype.forEach.call(document.querySelectorAll(".view-tab"), function (x) { x.classList.toggle("on", x === t); });
-        var bar = document.querySelector(".view-bar");
-        window.scrollTo({ top: bar.getBoundingClientRect().top + window.scrollY - hdr, behavior: "auto" });
         if (!grid) measureFilm();
       });
     });

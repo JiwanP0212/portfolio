@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Photography | Jiwan Park</title>
   <meta name="description" content="Photography by Jiwan Park.">
-  <link rel="stylesheet" href="styles.css?v=60">
+  <link rel="stylesheet" href="styles.css?v=61">
   <script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
   <script>document.documentElement.classList.add("film-on");</script>
   <noscript><style>.shot { opacity: 1 !important; transform: none !important; }</style></noscript>
@@ -37,12 +37,13 @@
       <button class="view-tab" type="button" data-view="grid">View all</button>
     </div>
 
-    <section class="film" id="film" aria-label="Photos, scrolling sideways">
-      <div class="film-pin">
-        <div class="film-track" id="film-track"></div>
-        <div class="film-meta"><span id="film-count">01 / 14</span><span class="film-hint" id="film-hint">Keep scrolling →</span></div>
-        <div class="film-bar"><span class="film-fill" id="film-fill"></span></div>
+    <section class="film" id="film" aria-label="Photos, swipe sideways">
+      <div class="film-scroll" id="film-scroll" tabindex="0"><div class="film-track" id="film-track"></div></div>
+      <div class="film-meta">
+        <span id="film-count">01 / 14</span>
+        <span class="film-right"><span class="film-hint" id="film-hint">Swipe or drag →</span><span class="film-nav"><button type="button" id="film-prev" aria-label="Previous photo">←</button><button type="button" id="film-next" aria-label="Next photo">→</button></span></span>
       </div>
+      <div class="film-bar"><span class="film-fill" id="film-fill"></span></div>
     </section>
 
     <section class="gallery-wrap row">
@@ -96,7 +97,7 @@
       }
     });
   </script>
-  <script src="gallery.js?v=4"></script>
+  <script src="gallery.js?v=6"></script>
   <script src="hero-hover.js?v=5"></script>
   <script src="site.js?v=12"></script>
 </body>
