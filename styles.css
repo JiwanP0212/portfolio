@@ -497,7 +497,7 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .film-scroll { height: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; display: flex; align-items: center; outline: none; user-select: none; -webkit-user-select: none; }
 .film-scroll::-webkit-scrollbar { display: none; }
 .film.dragging .film-scroll { cursor: grabbing; }
-.film-track { display: flex; flex: none; align-items: center; gap: 24px; padding: 0 var(--pad); }
+.film-track { display: flex; flex: none; align-items: center; gap: 10px; padding: 0 var(--pad); }
 .fshot { flex: none; position: relative; height: var(--h); width: calc(var(--h) * var(--ar, 1.5)); padding: 0; border: 0; overflow: hidden; background: var(--line); cursor: pointer; will-change: opacity, transform; }
 .fshot img { width: 100%; height: 100%; object-fit: cover; will-change: transform; pointer-events: none; }
 .fshot .shot-no { position: absolute; left: 12px; bottom: 10px; font-size: 11px; letter-spacing: .12em; color: var(--muted); }
@@ -509,4 +509,4 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .film-nav button:hover { color: var(--ink); }
 .film-bar { position: absolute; left: var(--pad); right: var(--pad); bottom: 28px; height: 1.5px; background: var(--line); }
 .film-fill { display: block; height: 100%; background: var(--ink); transform: scaleX(0); transform-origin: left; }
-@media (max-width: 640px) { .film-on .film { --h: calc(var(--fh) * .62); } .film-track { gap: 12px; } .film-nav { display: none; } }
+@media (max-width: 640px) { .film-on .film { --h: calc(var(--fh) * .62); } .film-track { gap: 8px; } .film-nav { display: none; } }

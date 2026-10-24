@@ -141,11 +141,13 @@
       fill.style.transform = "scaleX(" + Math.min(1, sl / max) + ")";
       hint.style.opacity = sl > 20 ? 0 : 1;
       items.forEach(function (o) {
-        var off = o.left + o.w / 2 - sl - viewW / 2, t = Math.min(1, Math.abs(off) / (viewW * 0.45));
-        var e = t * t * (3 - 2 * t);   // smooth falloff: the middle photo is biggest, the rest shrink and fade as they leave
-        o.el.style.opacity = (1 - 0.65 * e).toFixed(3);
-        o.el.style.transform = "scale(" + (1 - 0.3 * e).toFixed(4) + ")";
-        if (o.img && !calm) o.img.style.transform = "translate3d(" + (-off * 0.05).toFixed(1) + "px,0,0) scale(1.12)";
+        var off = o.left + o.w / 2 - sl - viewW / 2, t = Math.min(1, Math.abs(off) / (viewW * 0.55));
+        var e = t * t * (3 - 2 * t);                 // smooth falloff, gentle: no sudden size jumps while swiping
+        var s = 1 - 0.14 * e;
+        var tx = -Math.sign(off) * (1 - s) * o.w / 2; // keep the inner edge in place so the gaps stay tight
+        o.el.style.opacity = (1 - 0.5 * e).toFixed(3);
+        o.el.style.transform = "translate3d(" + tx.toFixed(1) + "px,0,0) scale(" + s.toFixed(4) + ")";
+        if (o.img && !calm) o.img.style.transform = "translate3d(" + (-off * 0.025).toFixed(1) + "px,0,0) scale(1.06)";
       });
       fcount.textContent = String(nearestIndex() + 1).padStart(2, "0") + " / " + String(items.length).padStart(2, "0");
     }
