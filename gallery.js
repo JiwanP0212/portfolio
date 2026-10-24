@@ -121,6 +121,10 @@
     function measureFilm() {
       if (getComputedStyle(film).display === "none") return;
       viewW = scroller.clientWidth;
+      // let the first and last photos reach the middle of the screen too
+      var first = items[0].el.offsetWidth, last = items[items.length - 1].el.offsetWidth;
+      track.style.paddingLeft = Math.max(0, viewW / 2 - first / 2) + "px";
+      track.style.paddingRight = Math.max(0, viewW / 2 - last / 2) + "px";
       items.forEach(function (o) { o.left = o.el.offsetLeft; o.w = o.el.offsetWidth; });
       updateFilm();
     }
@@ -137,8 +141,10 @@
       fill.style.transform = "scaleX(" + Math.min(1, sl / max) + ")";
       hint.style.opacity = sl > 20 ? 0 : 1;
       items.forEach(function (o) {
-        var off = o.left + o.w / 2 - sl - viewW / 2, d = Math.abs(off);
-        o.el.style.opacity = (0.3 + 0.7 * (1 - Math.min(1, d / (viewW * 0.55)))).toFixed(3);
+        var off = o.left + o.w / 2 - sl - viewW / 2, t = Math.min(1, Math.abs(off) / (viewW * 0.45));
+        var e = t * t * (3 - 2 * t);   // smooth falloff: the middle photo is biggest, the rest shrink and fade as they leave
+        o.el.style.opacity = (1 - 0.65 * e).toFixed(3);
+        o.el.style.transform = "scale(" + (1 - 0.3 * e).toFixed(4) + ")";
         if (o.img && !calm) o.img.style.transform = "translate3d(" + (-off * 0.05).toFixed(1) + "px,0,0) scale(1.12)";
       });
       fcount.textContent = String(nearestIndex() + 1).padStart(2, "0") + " / " + String(items.length).padStart(2, "0");
