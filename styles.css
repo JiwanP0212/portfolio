@@ -90,6 +90,7 @@ img { display: block; max-width: 100%; }
 
 /* Hero hover effect (built by hero-hover.js) */
 .prox { cursor: default; }
+.project .prox { cursor: inherit; }
 .prox-word { display: inline-block; white-space: nowrap; }
 .prox-line { display: block; white-space: nowrap; }
 .prox-ch { display: inline-block; white-space: pre; }

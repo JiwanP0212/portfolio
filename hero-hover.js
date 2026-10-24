@@ -35,7 +35,7 @@
       if (o.c === " ") words.push([]); else words[words.length - 1].push(o);
     });
 
-    var lines = [], all = [], left = 0, enabled = true;
+    var lines = [], all = [], left = 0, enabled = true, radius = RADIUS;
 
     function make(o) {
       var ch = document.createElement("span"); ch.className = "prox-ch" + (o.kw ? " is-kw" : "");
@@ -81,13 +81,15 @@
     }
 
     function reset() {
-      all.forEach(function (o) { o.ch.style.width = ""; o.gl.style.transform = ""; o.s = 1; });
+      all.forEach(function (o) { o.ch.style.width = ""; o.gl.style.transform = ""; o.s = 1; o.drawn = undefined; });
     }
 
     function measure() {
       reset();
       all.forEach(function (o) { o.w = o.ch.getBoundingClientRect().width; });
       left = root.getBoundingClientRect().left + window.scrollX;
+      // Smaller headings get a proportionally tighter reach, so the effect still moves letter by letter
+      radius = RADIUS * Math.min(1, (parseFloat(getComputedStyle(root).fontSize) || 44) / 44);
       // If a line is wider than its box (very narrow window), skip the effect
       enabled = lines.every(function (l) { return l.el.scrollWidth <= root.clientWidth + 1; });
       lines.forEach(function (l) {
@@ -116,13 +118,16 @@
           var target = 1;
           if (li === act && !o.space) {
             var dx = px - cx, dy = py - l.cy;
-            var g = Math.exp(-(dx * dx + dy * dy) / (RADIUS * RADIUS));
+            var g = Math.exp(-(dx * dx + dy * dy) / (radius * radius));
             target = 1 + ((o.kw ? KEYWORD_MAX : BASE_MAX) - 1) * g;
           }
           o.s += (target - o.s) * EASE;
           if (Math.abs(target - o.s) > 0.002) moving = true; else o.s = target;
-          o.ch.style.width = o.w * o.s + "px";
-          o.gl.style.transform = "scale(" + o.s + ")";
+          if (o.s !== o.drawn) {
+            o.ch.style.width = o.w * o.s + "px";
+            o.gl.style.transform = "scale(" + o.s + ")";
+            o.drawn = o.s;
+          }
           x += o.w * o.s;
         });
       });
@@ -131,7 +136,7 @@
 
     function relayout() { layout(); measure(); }
     relayout();
-    return { frame: frame, relayout: relayout };
+    return { frame: frame, relayout: relayout, measure: measure };
   }
 
   var insts = roots.map(setup);
@@ -156,6 +161,15 @@
     if (pending) return;
     pending = requestAnimationFrame(function () { pending = 0; insts.forEach(function (i) { i.relayout(); }); });
   });
+  // Re-measure if the page height changes (images loading, sections opening), so positions never drift
+  if ("ResizeObserver" in window) {
+    var mp = 0, lastH = document.documentElement.scrollHeight;
+    new ResizeObserver(function () {
+      if (mp || document.documentElement.scrollHeight === lastH) return;
+      lastH = document.documentElement.scrollHeight;
+      mp = requestAnimationFrame(function () { mp = 0; insts.forEach(function (i) { i.measure(); }); });
+    }).observe(document.body);
+  }
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
     insts.forEach(function (i) { i.relayout(); });
   });
