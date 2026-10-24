@@ -445,12 +445,6 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
 
-/* Contact: invitation + pre-filled email buttons */
-.invite h2 { margin: 0 0 12px; }
-.invite .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 32px 0 12px; }
-.invite .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.btn { font: 500 15px/1 var(--sans); letter-spacing: -.01em; color: var(--muted); border: 1px solid var(--line); padding: 14px 20px; transition: color .3s, border-color .3s; }
-.btn:hover { color: var(--ink); border-color: var(--ink); }
 
 /* Placeholder collage (home card and "More work" thumb) until real photos go in */
 .collage { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; aspect-ratio: 16 / 9; background: var(--bg); }
